@@ -30,4 +30,4 @@ ensure 6x_houserobbery
 ```
 
 ## Image Showcase
-![image](Screenshot_20230223_000047|690x388](upload://s8Tmv2wHinqQGHoVBlKPtj4GQyh.jpeg)
+![image](https://cdn.discordapp.com/attachments/1078107124967690301/1078107125177389146/Screenshot_20230223_000047.png)
