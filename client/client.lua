@@ -230,25 +230,41 @@ function drawTxt3D(x,y,z, text)
 end
 
 function beginLoot()
-    QBCore.Functions.Progressbar("loot_house", Lang:t("progress.lookingforstuff"), math.random(6000,12000), false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = "mini@repair",
-		anim = "fixing_a_player",
-		flags = 16,
-    }, {}, {}, function() -- Done
-        StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
-        TriggerServerEvent("robbery:loot")
-        ClearPedTasks(PlayerPedId())
-    end, function() -- Cancel
-        StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
-        openingDoor = false
-        ClearPedTasks(PlayerPedId())
-        QBCore.Functions.Notify(Lang:t("notify.canceled"), "error")
-    end)
+    if Config.Progressbar == "default" then
+        QBCore.Functions.Progressbar("loot_house", Lang:t("progress.lookingforstuff"), math.random(6000,12000), false, true, {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+        }, {
+            animDict = "mini@repair",
+	    	anim = "fixing_a_player",
+	    	flags = 16,
+        }, {}, {}, function() -- Done
+            StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+            TriggerServerEvent("robbery:loot")
+            ClearPedTasks(PlayerPedId())
+        end, function() -- Cancel
+            StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+            openingDoor = false
+            ClearPedTasks(PlayerPedId())
+            QBCore.Functions.Notify(Lang:t("notify.canceled"), "error")
+        end)
+    elseif Config.Progressbar == "ox_lib" then
+        lib.progressBar({
+            duration = 2000,
+            label = Lang:t("progress.lookingforstuff"),
+            useWhileDead = false,
+            canCancel = false,
+            disable = {
+                car = true,
+            },
+            anim = {
+                dict = 'mini@repair',
+                clip = 'fixing_a_player'
+            },
+        })
+    end
 end
 
 function cooldownNextRobbery()
@@ -378,7 +394,7 @@ function EntryMinigame(missionTarget)
         local success = lib.skillCheck(Config.SkillDifficulty)
         local rand = Config.SkillRepeatTimes
 
-        if rand == 5 then
+        if rand == 1 then
             QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
             TriggerServerEvent("6x_houserobbery:server:takeitem")
             callPolice(missionTarget)
@@ -407,6 +423,6 @@ function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
 end
 
-RegisterCommand('start', function()
+--[[RegisterCommand('start', function()
     TriggerEvent('6x_houserobbery:startrobbery')
-end, 'god')
+end, 'god')]]

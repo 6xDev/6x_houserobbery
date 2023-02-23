@@ -10,6 +10,8 @@ Config.PedLocation = CreatePed(4, 0xA1435105, 762.0843, -1038.7394, 19.7249, fal
 
 Config.PickItem = "advancedlockpick"
 
+Config.Progressbar = "default" -- You can set it to ox_lib or default
+
 Config.Minigame = "qb-skillbar" -- qb-skillbar is default, you can put ps-ui and ox_lib too
 
 --qb-skillbar
