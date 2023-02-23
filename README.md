@@ -22,7 +22,7 @@
 - If you don't have mask police will be alerted
 
 ## Update 1.0.2
-- Support for ox_lib
+- Support for ox_lib -- If you are using ox_lib make sure to go to fxmanifest and enable line 19!
 
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
