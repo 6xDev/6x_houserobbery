@@ -373,12 +373,12 @@ function EntryMinigame(missionTarget)
                 exports['qb-core']:HideText()
             end
         end, Config.Circles, Config.MS) -- NumberOfCircles, MS
-		
-		    elseif Config.Minigame == "ox_lib" then
+
+    elseif Config.Minigame == "ox_lib" then
         local success = lib.skillCheck(Config.SkillDifficulty)
         local rand = Config.SkillRepeatTimes
 
-        if rand == 1 then
+        if rand == 5 then
             QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
             TriggerServerEvent("6x_houserobbery:server:takeitem")
             callPolice(missionTarget)
@@ -399,6 +399,7 @@ function EntryMinigame(missionTarget)
                 callPolice(missionTarget)
             end
         end
+    
     end
 end
 
@@ -406,6 +407,6 @@ function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
 end
 
---[[RegisterCommand('start', function()
+RegisterCommand('start', function()
     TriggerEvent('6x_houserobbery:startrobbery')
-end, 'god')]]
+end, 'god')
