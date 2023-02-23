@@ -10,7 +10,7 @@ Config.PedLocation = CreatePed(4, 0xA1435105, 762.0843, -1038.7394, 19.7249, fal
 
 Config.PickItem = "advancedlockpick"
 
-Config.Minigame = "ox_lib" -- qb-skillbar is default, you can put ps-ui and ox_lib too
+Config.Minigame = "qb-skillbar" -- qb-skillbar is default, you can put ps-ui and ox_lib too
 
 --qb-skillbar
 Config.NeededAttempts = math.random(4, 7) -- Needed Attempts
