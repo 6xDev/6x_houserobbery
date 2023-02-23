@@ -21,6 +21,9 @@
 - Support for ps-ui
 - If you don't have mask police will be alerted
 
+## Update 1.0.2
+- Support for ox_lib
+
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)
