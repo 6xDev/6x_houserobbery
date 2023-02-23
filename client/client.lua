@@ -112,7 +112,7 @@ AddEventHandler("6x_houserobbery:createentry", function(missionTarget)
 	            if IsControlJustReleased(0, 23) then
                     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
                         if HasItem then
-	                        EntryMinigame(missionTarget)
+                            EntryMinigame(missionTarget)
                         else
                             QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
                         end
@@ -292,58 +292,94 @@ function StartAnimation()
 end
 
 function EntryMinigame(missionTarget)
-    local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
-    if NeededAttempts == 0 then
-        NeededAttempts = Config.NeededAttempts
-        -- NeededAttempts = 1
-    end
-
-    local maxwidth = Config.MaxWidth
-    local maxduration = Config.MaxDuration
-
-    Skillbar.Start({
-        StartAnimation(),
-        duration = Config.Duration,
-        pos = Config.Pos,
-        width = Config.Width,
-    }, function()
-
-        if SucceededAttempts + 1 >= NeededAttempts then
-            TriggerEvent("6x_houserobbery:goinside", missionTarget)
-            ongoing = true
-            QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
-            FailedAttemps = 0
-            SucceededAttempts = 0
-            NeededAttempts = 0
-        else
-            SucceededAttempts = SucceededAttempts + 1
-            Skillbar.Repeat({
-                duration = Config.Duration,
-                pos = Config.Pos,
-                width = Config.Width,
-            })
+    if Config.Minigame == "qb-skillbar" then
+        local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
+        if NeededAttempts == 0 then
+            NeededAttempts = Config.NeededAttempts
+            -- NeededAttempts = 1
         end
 
+        local maxwidth = Config.MaxWidth
+        local maxduration = Config.MaxDuration
 
-	end, function()
+        Skillbar.Start({
+            StartAnimation(),
+            duration = Config.Duration,
+            pos = Config.Pos,
+            width = Config.Width,
+        }, function()
 
-            QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
-            StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-            ClearPedTasks(PlayerPedId())
-            TriggerServerEvent("6x_houserobbery:server:takeitem")
-            callPolice(missionTarget)
-            FailedAttemps = 0
-            SucceededAttempts = 0
-            NeededAttempts = 0
-            robberyStarted = false
-            ongoing = false
-            cooldownNextRobberyFail()
-            Citizen.Wait(500)
-            exports['qb-core']:HideText()
+            if SucceededAttempts + 1 >= NeededAttempts then
+                TriggerEvent("6x_houserobbery:goinside", missionTarget)
+                ongoing = true
+                QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
+                if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+                    QBCore.Functions.Notify(Lang:t("notify.donthavemask"))
+                    callPolice(missionTarget)
+                end
+                FailedAttemps = 0
+                SucceededAttempts = 0
+                NeededAttempts = 0
+            else
+                SucceededAttempts = SucceededAttempts + 1
+                Skillbar.Repeat({
+                    duration = Config.Duration,
+                    pos = Config.Pos,
+                    width = Config.Width,
+                })
+            end
 
-    end)
+
+	    end, function()
+
+                QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
+                StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
+                ClearPedTasks(PlayerPedId())
+                TriggerServerEvent("6x_houserobbery:server:takeitem")
+                callPolice(missionTarget)
+                FailedAttemps = 0
+                SucceededAttempts = 0
+                NeededAttempts = 0
+                robberyStarted = false
+                ongoing = false
+                cooldownNextRobberyFail()
+                Citizen.Wait(500)
+                exports['qb-core']:HideText()
+
+        end)
+
+    elseif Config.Minigame == "ps-ui" then
+        StartAnimation()
+        exports['ps-ui']:Circle(function(success)
+            if success then
+                TriggerEvent("6x_houserobbery:goinside", missionTarget)
+                ongoing = true
+                QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
+                --if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+                if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
+                    QBCore.Functions.Notify(Lang:t("notify.donthavemask"))
+                    callPolice(missionTarget)
+                end
+            else
+                QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
+                StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
+                ClearPedTasks(PlayerPedId())
+                TriggerServerEvent("6x_houserobbery:server:takeitem")
+                callPolice(missionTarget)
+                robberyStarted = false
+                ongoing = false
+                cooldownNextRobberyFail()
+                Citizen.Wait(500)
+                exports['qb-core']:HideText()
+            end
+        end, Config.Circles, Config.MS) -- NumberOfCircles, MS
+    end
 end
 
 function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
 end
+
+RegisterCommand('start', function()
+    TriggerEvent('6x_houserobbery:startrobbery')
+end)

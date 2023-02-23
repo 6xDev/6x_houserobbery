@@ -33,6 +33,7 @@ local Translations = {
         ["alreadycheacked"] = "You already cheacked here.",
         ["gotthedoor"] = "You got the door open!",
         ["messedup"] = "You messed up the lock! Get outa there!",
+        ["donthavemask"] = "There's a camera here, she caught your face because you don't have a mask!",
         ["canceled"] = "Process Canceled"
     },
 

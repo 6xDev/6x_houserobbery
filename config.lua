@@ -10,12 +10,19 @@ Config.PedLocation = CreatePed(4, 0xA1435105, 762.0843, -1038.7394, 19.7249, fal
 
 Config.PickItem = "advancedlockpick"
 
+Config.Minigame = "ps-ui" -- qb-skillbar is default, you can put ps-ui too, i'm not sure if some another work
+
+--qb-skillbar
 Config.NeededAttempts = math.random(4, 7) -- Needed Attempts
 Config.MaxWidth = 30
 Config.MaxDuration = 1000 -- Max Duration
 Config.Duration = math.random(500, 1000) -- Speed of minigame
 Config.Pos = math.random(10, 30)
 Config.Width = math.random(20, 30)
+
+--ps-ui
+Config.Circles = 5 -- Number of circles
+Config.MS = 8 -- MS
 
 Config.Cooldown = 600000 -- in ms
 

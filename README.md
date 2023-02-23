@@ -17,6 +17,10 @@
 - You can add more items
 - Dispatch Support when you fail
 
+## Update 1.0.1
+- Support for ps-ui
+- If you don't have mask police will be alerted
+
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)

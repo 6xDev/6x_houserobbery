@@ -4,7 +4,7 @@ lua54 'yes'
 
 author '6X Development'
 description '[QB] 6x_houserobbery'
-version '1.0.0'
+version '1.0.1'
 
 client_scripts{
     "client/client.lua",
