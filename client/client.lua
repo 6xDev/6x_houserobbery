@@ -263,6 +263,7 @@ function beginLoot()
                 dict = 'mini@repair',
                 clip = 'fixing_a_player'
             },
+	    TriggerServerEvent("robbery:loot")
         })
     end
 end
