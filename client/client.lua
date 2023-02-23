@@ -373,6 +373,32 @@ function EntryMinigame(missionTarget)
                 exports['qb-core']:HideText()
             end
         end, Config.Circles, Config.MS) -- NumberOfCircles, MS
+		
+		    elseif Config.Minigame == "ox_lib" then
+        local success = lib.skillCheck(Config.SkillDifficulty)
+        local rand = Config.SkillRepeatTimes
+
+        if rand == 1 then
+            QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
+            TriggerServerEvent("6x_houserobbery:server:takeitem")
+            callPolice(missionTarget)
+            robberyStarted = false
+            ongoing = false
+            cooldownNextRobberyFail()
+            Citizen.Wait(500)
+            exports['qb-core']:HideText()
+        end
+    
+        if success then
+            TriggerEvent("6x_houserobbery:goinside", missionTarget)
+            ongoing = true
+            QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
+            --if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+            if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
+                QBCore.Functions.Notify(Lang:t("notify.donthavemask"))
+                callPolice(missionTarget)
+            end
+        end
     end
 end
 
@@ -380,6 +406,6 @@ function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
 end
 
-RegisterCommand('start', function()
+--[[RegisterCommand('start', function()
     TriggerEvent('6x_houserobbery:startrobbery')
-end)
+end, 'god')]]
