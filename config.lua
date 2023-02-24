@@ -8,6 +8,8 @@ Config.Phone = "qb-phone" -- qb-phone, gks-phone, qs-phone
 
 Config.Ped = "a_m_y_business_03"
 Config.PedHeading = 357.7963
+Config.ModelHash = 0xA1435105
+Config.PedLocation = vector3(762.0843, -1038.7394, 19.7249)
 
 Config.PedLocation = CreatePed(4, 0xA1435105, 762.0843, -1038.7394, 19.7249, false, true)
 
