@@ -28,6 +28,9 @@
 - Noise system so you need to go slowly, if noise go over 100 alarm will be triggered and police get notify
 - To start robbery, it has to be night
 
+## Update 1.0.4
+- Support for 3 different phones [[qb-phone](https://github.com/qbcore-framework/qb-phone), [gks-phone](https://fivem.gkshop.org/package/4862478), [qs-phone](https://buy.quasar-store.com/package/4861393)]
+
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)
