@@ -24,6 +24,10 @@
 ## Update 1.0.2
 - Support for ox_lib -- If you are using ox_lib make sure to enable line 19 in fxmanifest.lua
 
+## Update 1.0.3
+- Noise system so you need to go slowly, if noise go over 100 alarm will be triggered and police get notify
+- To start robbery, it has to be night
+
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)
