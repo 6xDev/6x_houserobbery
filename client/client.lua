@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
         Wait(1)
     end
 
-    local npc = Config.PedLocation
+    local npc = CreatePed(4, Config.ModelHash, Config.PedLocation)
 
     SetEntityHeading(npc, Config.PedHeading)
     FreezeEntityPosition(npc, true)
