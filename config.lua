@@ -11,8 +11,6 @@ Config.PedHeading = 357.7963
 Config.ModelHash = 0xA1435105
 Config.PedLocation = vector3(762.0843, -1038.7394, 19.7249)
 
-Config.PedLocation = CreatePed(4, 0xA1435105, 762.0843, -1038.7394, 19.7249, false, true)
-
 Config.PickItem = "advancedlockpick"
 
 Config.Progressbar = "default" -- You can set it to ox_lib or default
