@@ -13,6 +13,8 @@ Config.PedLocation = vector3(762.0843, -1038.7394, 19.7249)
 
 Config.PickItem = "advancedlockpick"
 
+Config.noise = true -- true/false
+
 Config.Progressbar = "default" -- You can set it to ox_lib or default
 
 Config.Minigame = "qb-skillbar" -- qb-skillbar is default, you can put ps-ui and ox_lib too
