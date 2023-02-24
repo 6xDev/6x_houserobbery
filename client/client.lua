@@ -3,6 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 canStart = true
 ongoing = false
 robberyStarted = false
+noise = 0
 NeededAttempts = 0
 SucceededAttempts = 0
 FailedAttemps = 0
@@ -50,27 +51,70 @@ end)
 RegisterNetEvent("6x_houserobbery:startrobbery")
 AddEventHandler("6x_houserobbery:startrobbery", function()
     if canStart then
-        canStart = false
-        ongoing = true
-        QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
-        local missionWait = math.random( 1000,  1001)
-        Citizen.Wait(missionWait)
-        SetTimeout(2000, function()
-            TriggerServerEvent('qb-phone:server:sendNewMail', {
-                sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject"),
-                message = Lang:t("mail.message"),
-                button = {
-                    enabled = true,
-                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                }
-            })
-        end)
+        if isNight() then
+            canStart = false
+            ongoing = true
+            QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
+            local missionWait = math.random( 1000,  1001)
+            Citizen.Wait(missionWait)
+            SetTimeout(2000, function()
+                TriggerServerEvent('qb-phone:server:sendNewMail', {
+                    sender =  Lang:t("mail.sender"),
+                    subject = Lang:t("mail.subject"),
+                    message = Lang:t("mail.message"),
+                    button = {
+                        enabled = true,
+                        buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                    }
+                })
+            end)
+        else
+            QBCore.Functions.Notify(Lang:t("notify.notnight"), 'error')
+        end
     elseif ongoing then
         QBCore.Functions.Notify(Lang:t("notify.robberyinprogress"), "error")
     else
-        QBCore.Functions.Notify(Lang:t("notify.needtowait") ..Config.Cooldown.. Lang:t("notify.needtowait2"), "error")
+        QBCore.Functions.Notify(Lang:t("notify.needtowait"), "error")
     end
+end)
+
+RegisterNetEvent('6x_houserobbery:noise')
+AddEventHandler('6x_houserobbery:noise', function()
+	local ped = PlayerPedId()
+	while ongoing do
+		if IsPedShooting(ped) then
+			noise = noise + 100
+            QBCore.Functions.Notify('Noise: '..noise)
+            Citizen.Wait(1000)
+		end
+		if GetEntitySpeed(ped) > 1.7 then
+			noise = noise + 10
+            QBCore.Functions.Notify('Noise: '..noise)
+            Citizen.Wait(1000)
+			if GetEntitySpeed(ped) > 2.5 then
+				noise = noise + 15
+                QBCore.Functions.Notify('Noise: '..noise)
+                Citizen.Wait(1000)
+			end
+			if GetEntitySpeed(ped) > 3.0 then
+				noise = noise + 20
+                QBCore.Functions.Notify('Noise: '..noise)
+                Citizen.Wait(1000)
+			end
+			Citizen.Wait(300)
+		else
+			noise = noise - 2
+            Citizen.Wait(1000)
+			if noise < 0 then
+				noise = 0
+                QBCore.Functions.Notify('Noise: '..noise)
+			end
+			Citizen.Wait(1000)
+		end
+		if noise > 100 then
+			callPolice(missionTarget)
+		end
+	end
 end)
 
 RegisterNetEvent("6x_houserobbery:getrandomhouseloc")
@@ -142,6 +186,7 @@ AddEventHandler("6x_houserobbery:goinside", function(missionTarget)
     SetEntityCoords(PlayerPedId(), missionTarget.inside.x, missionTarget.inside.y, missionTarget.inside.z)
     TriggerEvent("6x_houserobbery:createexit", missionTarget)
     TriggerEvent("6x_houserobbery:createloot", missionTarget)
+    TriggerEvent("6x_houserobbery:noise")
 end)
 
 RegisterNetEvent("6x_houserobbery:createexit")
@@ -263,7 +308,7 @@ function beginLoot()
                 dict = 'mini@repair',
                 clip = 'fixing_a_player'
             },
-	    TriggerServerEvent("robbery:loot")
+            TriggerServerEvent("robbery:loot")
         })
     end
 end
@@ -302,6 +347,14 @@ function cooldownNextRobberyFail()
     canStart = true
     robberyCreated = false
     ongoing = false
+end
+
+function isNight()
+	local hour = GetClockHours()
+	if hour > Config.Night[1] or hour < Config.Night[2] then
+		return true
+	end
+	return false
 end
 
 function StartAnimation()
@@ -422,8 +475,10 @@ end
 
 function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
+    QBCore.Functions.Notify(Lang:t("notify.alarm"))
+    Citizen.Wait(15000)
 end
 
 --[[RegisterCommand('start', function()
     TriggerEvent('6x_houserobbery:startrobbery')
-end, 'god')]]
+end)]]
