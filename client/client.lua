@@ -58,15 +58,33 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
             local missionWait = math.random( 1000,  1001)
             Citizen.Wait(missionWait)
             SetTimeout(2000, function()
-                TriggerServerEvent('qb-phone:server:sendNewMail', {
-                    sender =  Lang:t("mail.sender"),
-                    subject = Lang:t("mail.subject"),
-                    message = Lang:t("mail.message"),
-                    button = {
-                        enabled = true,
-                        buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                    }
-                })
+                if Config.Phone == "qb-phone" then
+                    TriggerServerEvent('qb-phone:server:sendNewMail', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message"),
+                        button = {
+                            enabled = true,
+                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                        }
+                    })
+                elseif Config.Phone == "gks-phone" then
+                    TriggerServerEvent('gksphone:NewMail', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message")
+                    })
+                elseif Config.Phone == "qs-phone" then
+                    TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message"),
+                        button = {
+                            enabled = true,
+                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                        }
+                    })
+                end
             end)
         else
             QBCore.Functions.Notify(Lang:t("notify.notnight"), 'error')
@@ -317,14 +335,34 @@ function cooldownNextRobbery()
     RemoveBlip(targetBlip)
     exports['qb-core']:HideText()
     Citizen.Wait(3000)
-    TriggerServerEvent('qb-phone:server:sendNewMail', {
-        sender = Lang:t("mail.sender"),
-        subject = Lang:t("mail.subject2"),
-        message = Lang:t("mail.message2"),
+    if Config.Phone == "qb-phone" then
+        TriggerServerEvent('qb-phone:server:sendNewMail', {
+            sender =  Lang:t("mail.sender"),
+            subject = Lang:t("mail.subject2"),
+            message = Lang:t("mail.message2"),
             button = {
-            enabled = false
-        }
-    })
+                enabled = true,
+                buttonEvent = "6x_houserobbery:getrandomhouseloc"
+            }
+        })
+    elseif Config.Phone == "gks-phone" then
+        TriggerServerEvent('gksphone:NewMail', {
+            sender =  Lang:t("mail.sender"),
+            subject = Lang:t("mail.subject2"),
+            message = Lang:t("mail.message2")
+        })
+    elseif Config.Phone == "qs-phone" then
+        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+            sender =  Lang:t("mail.sender"),
+            subject = Lang:t("mail.subject2"),
+            message = Lang:t("mail.message2"),
+            button = {
+                enabled = true,
+                buttonEvent = "6x_houserobbery:getrandomhouseloc"
+            }
+        })
+    end
+
     Citizen.Wait(Config.Cooldown) -- Needs a better option. So that client cant just reconnect and reset timer that way.
     canStart = true
     robberyCreated = false
@@ -335,14 +373,33 @@ function cooldownNextRobberyFail()
     RemoveBlip(targetBlip)
     exports['qb-core']:HideText()
     Citizen.Wait(3000)
-    TriggerServerEvent('qb-phone:server:sendNewMail', {
-        sender = Lang:t("mail.sender"),
-        subject = Lang:t("mail.subject3"),
-        message = Lang:t("mail.message3"),
-        button = {
-            enabled = false
-        }
-    })
+    if Config.Phone == "qb-phone" then
+        TriggerServerEvent('qb-phone:server:sendNewMail', {
+            sender =  Lang:t("mail.sender"),
+            subject = Lang:t("mail.subject3"),
+            message = Lang:t("mail.message3"),
+            button = {
+                enabled = true,
+                buttonEvent = "6x_houserobbery:getrandomhouseloc"
+            }
+        })
+    elseif Config.Phone == "gks-phone" then
+        TriggerServerEvent('gksphone:NewMail', {
+            sender =  Lang:t("mail.sender"),
+            subject = Lang:t("mail.subject3"),
+            message = Lang:t("mail.message3")
+        })
+    elseif Config.Phone == "qs-phone" then
+        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+            sender =  Lang:t("mail.sender"),
+            subject = Lang:t("mail.subject3"),
+            message = Lang:t("mail.message3"),
+            button = {
+                enabled = true,
+                buttonEvent = "6x_houserobbery:getrandomhouseloc"
+            }
+        })
+    end
     Citizen.Wait(Config.Cooldown) -- Needs a better option. So that client cant just reconnect and reset timer that way.
     canStart = true
     robberyCreated = false
