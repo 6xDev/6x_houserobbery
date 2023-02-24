@@ -207,7 +207,10 @@ AddEventHandler("6x_houserobbery:goinside", function(missionTarget)
     SetEntityCoords(PlayerPedId(), missionTarget.inside.x, missionTarget.inside.y, missionTarget.inside.z)
     TriggerEvent("6x_houserobbery:createexit", missionTarget)
     TriggerEvent("6x_houserobbery:createloot", missionTarget)
-    TriggerEvent("6x_houserobbery:noise")
+    if Config.noise then
+        TriggerEvent("6x_houserobbery:noise")
+    else
+    end
 end)
 
 RegisterNetEvent("6x_houserobbery:createexit")
