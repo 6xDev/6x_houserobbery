@@ -34,6 +34,8 @@ local Translations = {
         ["gotthedoor"] = "You got the door open!",
         ["messedup"] = "You messed up the lock! Get outa there!",
         ["donthavemask"] = "There's a camera here, she caught your face because you don't have a mask!",
+        ["alarm"] = "Alarm triggered",
+        ["notnight"] = "It's not night yet!",
         ["canceled"] = "Process Canceled"
     },
 
