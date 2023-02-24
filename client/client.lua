@@ -16,11 +16,14 @@ AddEventHandler('onResourceStart', function(resourceName)
 end)
 
 Citizen.CreateThread(function()
+    hashKey = RequestModel(GetHashKey(Config.Ped))
+
+
     while not HasModelLoaded(GetHashKey(Config.Ped)) do
         Wait(1)
     end
 
-    local npc = CreatePed(4, Config.ModelHash, Config.PedLocation)
+    local npc = CreatePed(4, Config.ModelHash, Config.PedLocation, false, true)
 
     SetEntityHeading(npc, Config.PedHeading)
     FreezeEntityPosition(npc, true)
