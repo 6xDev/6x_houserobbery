@@ -42,5 +42,6 @@ ensure 6x_houserobbery
 
 ## Image Showcase
 ![image](https://cdn.discordapp.com/attachments/1078107124967690301/1078107125177389146/Screenshot_20230223_000047.png)
+![image](https://cdn.discordapp.com/attachments/1014893981257191454/1078637024673800222/Screenshot_20230224_112852.png)
 ![image](https://cdn.discordapp.com/attachments/1014893981257191454/1078637025718177812/Screenshot_20230224_113026.png)
 ![image](https://cdn.discordapp.com/attachments/1014893981257191454/1078637026200526898/Screenshot_20230224_113255.png)
