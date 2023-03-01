@@ -9,6 +9,7 @@ local Translations = {
         --
         ["subject"] = "House location",
         ["message"] = "This one should be empty. Get all that juice out of there!",
+        ["messagenotnight"] = "This one should be empty. Get all that juice out of there, and don't forget to be careful, it's daylight, you're more conspicuous",
         --
         ["subject2"] = "Good.",
         ["message2"] = "Hope you got some good shit from that house. Comeback later and I might have another location for ya.",
