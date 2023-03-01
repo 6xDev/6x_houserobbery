@@ -4,7 +4,7 @@ Config.BlipName = "Robbery location"
 Config.Dispatch = "ps-dispatch"
 
 Config.Night = {20, 4} -- Players can rob only from 20:00 to 04:00.
-Config.Phone = "qb-phone" -- qb-phone, gks-phone, qs-phone
+Config.Phone = "qb-phone" -- qb-phone, gks-phone, qs-phone, lb-phone
 
 Config.Ped = "a_m_y_business_03"
 Config.PedHeading = 357.7963
