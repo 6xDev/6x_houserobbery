@@ -93,6 +93,7 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                         subject = Lang:t("mail.subject"),
                         message = Lang:t("mail.message"),
                         attachments = {
+                            "https://cdn.discordapp.com/attachments/1014893981257191454/1080605430868348978/Screenshot_20230223_000047.png",
                         }
                         actions = {
                             {
@@ -146,6 +147,7 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                         subject = Lang:t("mail.subject"),
                         message = Lang:t("mail.message"),
                         attachments = {
+                            "https://cdn.discordapp.com/attachments/1014893981257191454/1080605430868348978/Screenshot_20230223_000047.png",
                         }
                         actions = {
                             {
@@ -461,6 +463,7 @@ function cooldownNextRobbery()
                 subject = Lang:t("mail.subject2"),
                 message = Lang:t("mail.message2"),
                 attachments = {
+                    "https://cdn.discordapp.com/attachments/1014893981257191454/1080605430868348978/Screenshot_20230223_000047.png",
                 }
                 actions = {
                     {
@@ -508,6 +511,7 @@ function cooldownNextRobbery()
                 subject = Lang:t("mail.subject"),
                 message = Lang:t("mail.message"),
                 attachments = {
+                    "https://cdn.discordapp.com/attachments/1014893981257191454/1080605430868348978/Screenshot_20230223_000047.png",
                 }
                 actions = {
                     {
@@ -565,6 +569,7 @@ function cooldownNextRobberyFail()
                 subject = Lang:t("mail.subject3"),
                 message = Lang:t("mail.message3"),
                 attachments = {
+                    "https://cdn.discordapp.com/attachments/1014893981257191454/1080605430868348978/Screenshot_20230223_000047.png",
                 }
                 actions = {
                     {
@@ -612,6 +617,7 @@ function cooldownNextRobberyFail()
                 subject = Lang:t("mail.subject3"),
                 message = Lang:t("mail.message3"),
                 attachments = {
+                    "https://cdn.discordapp.com/attachments/1014893981257191454/1080605430868348978/Screenshot_20230223_000047.png",
                 }
                 actions = {
                     {
