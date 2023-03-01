@@ -88,6 +88,24 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                             buttonEvent = "6x_houserobbery:getrandomhouseloc"
                         }
                     })
+                elseif Config.Phone == "lb-phone" then
+                    local success, id = exports["lb-phone"]:SendMail({
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message"),
+                        attachments = {
+                        }
+                        actions = {
+                            {
+                                label = Lang:t("mail.sender"),
+                                data = {
+                                    event = "6x_houserobbery:getrandomhouseloc",
+                                    isServer = false,
+                                    data = {
+                                    }
+                                }
+                            }
+                        }
+                    })
                 end
             end)
         else
@@ -121,6 +139,24 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                         button = {
                             enabled = true,
                             buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                        }
+                    })
+                elseif Config.Phone == "lb-phone" then
+                    local success, id = exports["lb-phone"]:SendMail({
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message"),
+                        attachments = {
+                        }
+                        actions = {
+                            {
+                                label = Lang:t("mail.sender"),
+                                data = {
+                                    event = "6x_houserobbery:getrandomhouseloc",
+                                    isServer = false,
+                                    data = {
+                                    }
+                                }
+                            }
                         }
                     })
                 end
@@ -420,6 +456,24 @@ function cooldownNextRobbery()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
+        elseif Config.Phone == "lb-phone" then
+            local success, id = exports["lb-phone"]:SendMail({
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                attachments = {
+                }
+                actions = {
+                    {
+                        label = Lang:t("mail.sender"),
+                        data = {
+                            event = "6x_houserobbery:getrandomhouseloc",
+                            isServer = false,
+                            data = {
+                            }
+                        }
+                    }
+                }
+            })
         end
         callPolice(missionTarget)
     elseif robberystopped == false then
@@ -447,6 +501,24 @@ function cooldownNextRobbery()
                 button = {
                     enabled = true,
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "lb-phone" then
+            local success, id = exports["lb-phone"]:SendMail({
+                subject = Lang:t("mail.subject"),
+                message = Lang:t("mail.message"),
+                attachments = {
+                }
+                actions = {
+                    {
+                        label = Lang:t("mail.sender"),
+                        data = {
+                            event = "6x_houserobbery:getrandomhouseloc",
+                            isServer = false,
+                            data = {
+                            }
+                        }
+                    }
                 }
             })
         end
@@ -488,6 +560,24 @@ function cooldownNextRobberyFail()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
+        elseif Config.Phone == "lb-phone" then
+            local success, id = exports["lb-phone"]:SendMail({
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                attachments = {
+                }
+                actions = {
+                    {
+                        label = Lang:t("mail.sender"),
+                        data = {
+                            event = "6x_houserobbery:getrandomhouseloc",
+                            isServer = false,
+                            data = {
+                            }
+                        }
+                    }
+                }
+            })
         end
         callPolice(missionTarget)
     elseif robberystopped == false then
@@ -515,6 +605,24 @@ function cooldownNextRobberyFail()
                 button = {
                     enabled = true,
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "lb-phone" then
+            local success, id = exports["lb-phone"]:SendMail({
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                attachments = {
+                }
+                actions = {
+                    {
+                        label = Lang:t("mail.sender"),
+                        data = {
+                            event = "6x_houserobbery:getrandomhouseloc",
+                            isServer = false,
+                            data = {
+                            }
+                        }
+                    }
                 }
             })
         end
