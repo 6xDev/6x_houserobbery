@@ -3,6 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 canStart = true
 ongoing = false
 robberyStarted = false
+robberystopped = false
 noise = 0
 NeededAttempts = 0
 SucceededAttempts = 0
@@ -90,7 +91,41 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                 end
             end)
         else
-            QBCore.Functions.Notify(Lang:t("notify.notnight"), 'error')
+            canStart = false
+            ongoing = true
+            QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
+            local missionWait = math.random( 1000,  1001)
+            Citizen.Wait(missionWait)
+            SetTimeout(2000, function()
+                if Config.Phone == "qb-phone" then
+                    TriggerServerEvent('qb-phone:server:sendNewMail', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.messagenotnight"),
+                        button = {
+                            enabled = true,
+                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                        }
+                    })
+                elseif Config.Phone == "gks-phone" then
+                    TriggerServerEvent('gksphone:NewMail', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.messagenotnight")
+                    })
+                elseif Config.Phone == "qs-phone" then
+                    TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.messagenotnight"),
+                        button = {
+                            enabled = true,
+                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                        }
+                    })
+                end
+            end)
+
         end
     elseif ongoing then
         QBCore.Functions.Notify(Lang:t("notify.robberyinprogress"), "error")
@@ -128,12 +163,11 @@ AddEventHandler('6x_houserobbery:noise', function()
             Citizen.Wait(1000)
 			if noise < 0 then
 				noise = 0
-                QBCore.Functions.Notify('Noise: '..noise)
 			end
 			Citizen.Wait(1000)
 		end
 		if noise > 100 then
-			callPolice(missionTarget)
+			stopRobbery()
 		end
 	end
 end)
@@ -169,19 +203,35 @@ AddEventHandler("6x_houserobbery:createentry", function(missionTarget)
 	        local ped = PlayerPedId()
 	        local inZone = false
 	        local dist = #(GetEntityCoords(ped)-vector3(missionTarget.location.x, missionTarget.location.y, missionTarget.location.z))
-	        if dist <= 5.0 then
+	        if dist <= 3.0 then
 	            wait = 5
 	            inZone  = true
 	            text = Lang:t("text3d.text")
 
 	            if IsControlJustReleased(0, 23) then
-                    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
-                        if HasItem then
-                            EntryMinigame(missionTarget)
-                        else
-                            QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
-                        end
-                    end, Config.PickItem)
+                    if isNight then
+                        QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
+                            if HasItem then
+                                EntryMinigame(missionTarget)
+                            else
+                                QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
+                            end
+                        end, Config.PickItem)
+                    else
+                        local c = math.random(1, 2)
+                        QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
+                            if HasItem then
+                                if c == 1 then
+                                    EntryMinigame(missionTarget)
+                                elseif c == 2 then
+                                    callPolice(missionTarget)
+                                    QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
+                                end
+                            else
+                                QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
+                            end
+                        end, Config.PickItem)
+                    end
 	            end
 	        else
 	            wait = 2000
@@ -223,7 +273,7 @@ AddEventHandler("6x_houserobbery:createexit", function(missionTarget)
 	        local ped = PlayerPedId()
 	        local inZone = false
 	        local dist = #(GetEntityCoords(ped)-vector3(missionTarget.exit.x, missionTarget.exit.y, missionTarget.exit.z))
-	        if dist <= 5.0 then
+	        if dist <= 3.0 then
 	            wait = 5
 	            inZone  = true
 	            text = Lang:t("text3d.text2")
@@ -260,25 +310,27 @@ AddEventHandler("6x_houserobbery:createloot", function(missionTarget)
     for i,v in ipairs(missionTarget.loot) do
         local looted = false
         Citizen.CreateThread(function()
-            while ongoing do
-                local wait = 5000
-                local ped = PlayerPedId()
-                local pedCoords = GetEntityCoords(ped)
-                if #(v - pedCoords) < 20 then
-                    wait = 1
-                    if #(v - pedCoords) < 2 then
-                        drawTxt3D(v.x, v.y, v.z, Lang:t("text3d.text3"))
-                        if IsControlJustPressed(0, 46) then
-                            if not looted then
-                                beginLoot()
-                                looted = true
-                            else
-                                QBCore.Functions.Notify(Lang:t("notify.alreadycheacked"), "error")
+            if robberystopped == false then
+                while ongoing do
+                    local wait = 5000
+                    local ped = PlayerPedId()
+                    local pedCoords = GetEntityCoords(ped)
+                    if #(v - pedCoords) < 20 then
+                        wait = 1
+                        if #(v - pedCoords) < 2 then
+                            drawTxt3D(v.x, v.y, v.z, Lang:t("text3d.text3"))
+                            if IsControlJustPressed(0, 46) then
+                                if not looted then
+                                    beginLoot()
+                                    looted = true
+                                else
+                                    QBCore.Functions.Notify(Lang:t("notify.alreadycheacked"), "error")
+                                end
                             end
                         end
                     end
+                    Wait(wait)
                 end
-                Wait(wait)
             end
         end)
     end
@@ -341,34 +393,64 @@ function cooldownNextRobbery()
     RemoveBlip(targetBlip)
     exports['qb-core']:HideText()
     Citizen.Wait(3000)
-    if Config.Phone == "qb-phone" then
-        TriggerServerEvent('qb-phone:server:sendNewMail', {
-            sender =  Lang:t("mail.sender"),
-            subject = Lang:t("mail.subject2"),
-            message = Lang:t("mail.message2"),
-            button = {
-                enabled = true,
-                buttonEvent = "6x_houserobbery:getrandomhouseloc"
-            }
-        })
-    elseif Config.Phone == "gks-phone" then
-        TriggerServerEvent('gksphone:NewMail', {
-            sender =  Lang:t("mail.sender"),
-            subject = Lang:t("mail.subject2"),
-            message = Lang:t("mail.message2")
-        })
-    elseif Config.Phone == "qs-phone" then
-        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
-            sender =  Lang:t("mail.sender"),
-            subject = Lang:t("mail.subject2"),
-            message = Lang:t("mail.message2"),
-            button = {
-                enabled = true,
-                buttonEvent = "6x_houserobbery:getrandomhouseloc"
-            }
-        })
+    if robberystopped == true then
+        if Config.Phone == "qb-phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "gks-phone" then
+            TriggerServerEvent('gksphone:NewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2")
+            })
+        elseif Config.Phone == "qs-phone" then
+            TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        end
+        callPolice(missionTarget)
+    elseif robberystopped == false then
+        if Config.Phone == "qb-phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "gks-phone" then
+            TriggerServerEvent('gksphone:NewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2")
+            })
+        elseif Config.Phone == "qs-phone" then
+            TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        end
     end
-
     Citizen.Wait(Config.Cooldown) -- Needs a better option. So that client cant just reconnect and reset timer that way.
     canStart = true
     robberyCreated = false
@@ -379,32 +461,63 @@ function cooldownNextRobberyFail()
     RemoveBlip(targetBlip)
     exports['qb-core']:HideText()
     Citizen.Wait(3000)
-    if Config.Phone == "qb-phone" then
-        TriggerServerEvent('qb-phone:server:sendNewMail', {
-            sender =  Lang:t("mail.sender"),
-            subject = Lang:t("mail.subject3"),
-            message = Lang:t("mail.message3"),
-            button = {
-                enabled = true,
-                buttonEvent = "6x_houserobbery:getrandomhouseloc"
-            }
-        })
-    elseif Config.Phone == "gks-phone" then
-        TriggerServerEvent('gksphone:NewMail', {
-            sender =  Lang:t("mail.sender"),
-            subject = Lang:t("mail.subject3"),
-            message = Lang:t("mail.message3")
-        })
-    elseif Config.Phone == "qs-phone" then
-        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
-            sender =  Lang:t("mail.sender"),
-            subject = Lang:t("mail.subject3"),
-            message = Lang:t("mail.message3"),
-            button = {
-                enabled = true,
-                buttonEvent = "6x_houserobbery:getrandomhouseloc"
-            }
-        })
+    if robberystopped == true then
+        if Config.Phone == "qb-phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "gks-phone" then
+            TriggerServerEvent('gksphone:NewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3")
+            })
+        elseif Config.Phone == "qs-phone" then
+            TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        end
+        callPolice(missionTarget)
+    elseif robberystopped == false then
+        if Config.Phone == "qb-phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "gks-phone" then
+            TriggerServerEvent('gksphone:NewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3")
+            })
+        elseif Config.Phone == "qs-phone" then
+            TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        end
     end
     Citizen.Wait(Config.Cooldown) -- Needs a better option. So that client cant just reconnect and reset timer that way.
     canStart = true
@@ -418,6 +531,11 @@ function isNight()
 		return true
 	end
 	return false
+end
+
+function stopRobbery()
+    QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
+    robberystopped = true
 end
 
 function StartAnimation()
@@ -538,7 +656,7 @@ end
 
 function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
-    QBCore.Functions.Notify(Lang:t("notify.alarm"))
+    QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
     Citizen.Wait(15000)
 end
 
