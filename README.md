@@ -34,6 +34,9 @@
 ## Update 1.0.5
 - Fixed problem with not freezing/duplicating ped on location.
 
+## Update 1.0.6
+--Fixed problem with location of pd notify.
+--You can start robbery when its day, but there's 50% chance to cops get notified when you try to enter the house.
 
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
@@ -52,3 +55,4 @@ ensure 6x_houserobbery
 ![image](https://cdn.discordapp.com/attachments/1014893981257191454/1078637024673800222/Screenshot_20230224_112852.png)
 ![image](https://cdn.discordapp.com/attachments/1014893981257191454/1078637025718177812/Screenshot_20230224_113026.png)
 ![image](https://cdn.discordapp.com/attachments/1014893981257191454/1078637026200526898/Screenshot_20230224_113255.png)
+![image](https://cdn.discordapp.com/attachments/1014893981257191454/1080459204697010229/Screenshot_20230301_125144.png)
