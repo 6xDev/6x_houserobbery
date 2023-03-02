@@ -29,7 +29,7 @@
 - To start robbery, it has to be night
 
 ## Update 1.0.4
-- Support for 3 different phones [[qb-phone](https://github.com/qbcore-framework/qb-phone), [gks-phone](https://fivem.gkshop.org/package/4862478), [qs-phone](https://buy.quasar-store.com/package/4861393), [lb-phone](https://forum.cfx.re/t/esx-qb-ox-standalone-lb-phone-advanced-performance-friendly-phone/4943569)]
+- Support for 3 different phones [[qb-phone](https://github.com/qbcore-framework/qb-phone), [gks-phone](https://fivem.gkshop.org/package/4862478), [qs-phone](https://buy.quasar-store.com/package/4861393)
 
 ## Update 1.0.5
 - Fixed problem with not freezing/duplicating ped on location.
