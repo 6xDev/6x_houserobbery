@@ -561,14 +561,21 @@ function EntryMinigame(missionTarget)
         }, function()
 
             if SucceededAttempts + 1 >= NeededAttempts then
-                if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+                if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
                     callPolice(missionTarget)
                     TriggerEvent("6x_houserobbery:goinside", missionTarget)
                     ongoing = true
                     QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
-                    if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+                    if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
                         QBCore.Functions.Notify(Lang:t("notify.donthavemask"))
                     end
+                    FailedAttemps = 0
+                    SucceededAttempts = 0
+                    NeededAttempts = 0
+                else
+                    TriggerEvent("6x_houserobbery:goinside", missionTarget)
+                    ongoing = true
+                    QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
                     FailedAttemps = 0
                     SucceededAttempts = 0
                     NeededAttempts = 0
@@ -605,15 +612,24 @@ function EntryMinigame(missionTarget)
         StartAnimation()
         exports['ps-ui']:Circle(function(success)
             if success then
-                if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+                if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
                     callPolice(missionTarget)
                     TriggerEvent("6x_houserobbery:goinside", missionTarget)
                     ongoing = true
                     QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
-                    --if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
                     if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
                         QBCore.Functions.Notify(Lang:t("notify.donthavemask"))
                     end
+                    FailedAttemps = 0
+                    SucceededAttempts = 0
+                    NeededAttempts = 0
+                else
+                    TriggerEvent("6x_houserobbery:goinside", missionTarget)
+                    ongoing = true
+                    QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
+                    FailedAttemps = 0
+                    SucceededAttempts = 0
+                    NeededAttempts = 0
                 end
             else
                 QBCore.Functions.Notify(Lang:t("notify.messedup"), "error")
@@ -645,15 +661,24 @@ function EntryMinigame(missionTarget)
         end
     
         if success then
-            if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
+            if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
                 callPolice(missionTarget)
                 TriggerEvent("6x_houserobbery:goinside", missionTarget)
                 ongoing = true
                 QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
-                --if (GetEntityModel(GetPlayerPed(-1)) == freemode) then
                 if GetPedDrawableVariation(PlayerPedId(), 1) == 0 then
                     QBCore.Functions.Notify(Lang:t("notify.donthavemask"))
                 end
+                FailedAttemps = 0
+                SucceededAttempts = 0
+                NeededAttempts = 0
+            else
+                TriggerEvent("6x_houserobbery:goinside", missionTarget)
+                ongoing = true
+                QBCore.Functions.Notify(Lang:t("notify.gotthedoor"), "success")
+                FailedAttemps = 0
+                SucceededAttempts = 0
+                NeededAttempts = 0
             end
         end
     
@@ -663,9 +688,8 @@ end
 function callPolice(missionTarget)
     exports[Config.Dispatch]:HouseRobbery()
     QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
-    Citizen.Wait(15000)
 end
 
---[[RegisterCommand('start', function()
+--[[RegisterCommand('startrob', function()
     TriggerEvent('6x_houserobbery:startrobbery')
 end)]]
