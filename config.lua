@@ -4,7 +4,7 @@ Config.BlipName = "Robbery location"
 Config.Dispatch = "ps-dispatch"
 
 Config.Night = {20, 4} -- Players can rob only from 20:00 to 04:00.
-Config.Phone = "qb-phone" -- qb-phone, gks-phone, qs-phone, lb-phone
+Config.Phone = "qb-phone" -- qb-phone, gks-phone, qs-phone, lb-phone, high_phone
 
 Config.Ped = "a_m_y_business_03"
 Config.PedHeading = 357.7963
@@ -17,7 +17,7 @@ Config.noise = true -- true/false
 
 Config.Progressbar = "default" -- You can set it to ox_lib or default
 
-Config.Minigame = "qb-skillbar" -- qb-skillbar is default, you can put ps-ui and ox_lib too
+Config.Minigame = "ps-ui" -- qb-skillbar is default, you can put ps-ui and ox_lib too
 
 --qb-skillbar
 Config.NeededAttempts = math.random(4, 7) -- Needed Attempts
@@ -86,4 +86,3 @@ Config.Items = {
         "moneybag"
     }
 }
-
