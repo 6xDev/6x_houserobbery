@@ -55,90 +55,96 @@ end)
 RegisterNetEvent("6x_houserobbery:startrobbery")
 AddEventHandler("6x_houserobbery:startrobbery", function()
     if canStart then
-        if isNight() then
-            canStart = false
-            ongoing = true
-            QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
-            local missionWait = math.random( 1000,  1001)
-            Citizen.Wait(missionWait)
-            SetTimeout(2000, function()
-                if Config.Phone == "qb-phone" then
-                    TriggerServerEvent('qb-phone:server:sendNewMail', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.message"),
-                        button = {
-                            enabled = true,
-                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                        }
-                    })
-                elseif Config.Phone == "gks-phone" then
-                    TriggerServerEvent('gksphone:NewMail', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.message")
-                    })
-                elseif Config.Phone == "qs-phone" then
-                    TriggerServerEvent('qs-smartphone:server:sendNewMail', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.message"),
-                        button = {
-                            enabled = true,
-                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                        }
-                    })
-                elseif Config.Phone == "high_phone" then
-                    TriggerServerEvent('high_phone:sendMailFromServer', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.message"),
-                    })
-                end
-            end)
-        else
-            canStart = false
-            ongoing = true
-            QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
-            local missionWait = math.random( 1000,  1001)
-            Citizen.Wait(missionWait)
-            SetTimeout(2000, function()
-                if Config.Phone == "qb-phone" then
-                    TriggerServerEvent('qb-phone:server:sendNewMail', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.messagenotnight"),
-                        button = {
-                            enabled = true,
-                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                        }
-                    })
-                elseif Config.Phone == "gks-phone" then
-                    TriggerServerEvent('gksphone:NewMail', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.messagenotnight")
-                    })
-                elseif Config.Phone == "qs-phone" then
-                    TriggerServerEvent('qs-smartphone:server:sendNewMail', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.messagenotnight"),
-                        button = {
-                            enabled = true,
-                            buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                        }
-                    })
-                elseif Config.Phone == "high_phone" then
-                    TriggerServerEvent('high_phone:sendMailFromServer', {
-                        sender =  Lang:t("mail.sender"),
-                        subject = Lang:t("mail.subject"),
-                        message = Lang:t("mail.message"),
-                    })
-                end
-            end)
+        QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+            if result then
+                if isNight() then
+                    canStart = false
+                    ongoing = true
+                    QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
+                    local missionWait = math.random( 1000,  1001)
+                    Citizen.Wait(missionWait)
+                    SetTimeout(2000, function()
+                        if Config.Phone == "qb-phone" then
+                            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.message"),
+                                button = {
+                                    enabled = true,
+                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                                }
+                            })
+                        elseif Config.Phone == "gks-phone" then
+                            TriggerServerEvent('gksphone:NewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.message")
+                            })
+                        elseif Config.Phone == "qs-phone" then
+                            TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.message"),
+                                button = {
+                                    enabled = true,
+                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                                }
+                            })
+                        elseif Config.Phone == "high_phone" then
+                            TriggerServerEvent('high_phone:sendMailFromServer', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.message"),
+                            })
+                        end
+                    end)
+                else
+                    canStart = false
+                    ongoing = true
+                    QBCore.Functions.Notify(Lang:t("notify.starting"), "success")
+                    local missionWait = math.random( 1000,  1001)
+                    Citizen.Wait(missionWait)
+                    SetTimeout(2000, function()
+                        if Config.Phone == "qb-phone" then
+                            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.messagenotnight"),
+                                button = {
+                                    enabled = true,
+                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                                }
+                            })
+                        elseif Config.Phone == "gks-phone" then
+                            TriggerServerEvent('gksphone:NewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.messagenotnight")
+                            })
+                        elseif Config.Phone == "qs-phone" then
+                            TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.messagenotnight"),
+                                button = {
+                                    enabled = true,
+                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                                }
+                            })
+                        elseif Config.Phone == "high_phone" then
+                            TriggerServerEvent('high_phone:sendMailFromServer', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.message"),
+                            })
+                        end
+                    end)
 
-        end
+                end
+            else
+                QBCore.Functions.Notify(Lang:t('notify.donthaveitem'), 'error')
+            end
+        end, Config.StartItem)
     elseif ongoing then
         QBCore.Functions.Notify(Lang:t("notify.robberyinprogress"), "error")
     else
