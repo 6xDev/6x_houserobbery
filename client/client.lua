@@ -55,8 +55,9 @@ end)
 RegisterNetEvent("6x_houserobbery:startrobbery")
 AddEventHandler("6x_houserobbery:startrobbery", function()
     if canStart then
-        --QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        --    if result then
+        QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+            if result then
+                TriggerServerEvent("6x_houserobbery:server:takeitem2")
                 if isNight() then
                     canStart = false
                     ongoing = true
@@ -74,16 +75,6 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                                 }
                             })
-                        elseif Config.Phone == "high_phone" then
-                            TriggerServerEvent('high_phone:sendMailFromServer', {
-                                sender =  Lang:t("mail.sender"),
-                                subject = Lang:t("mail.subject"),
-                                message = Lang:t("mail.message"),
-                                button = {
-                                    enabled = true,
-                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                                }
-                            })
                         elseif Config.Phone == "gks-phone" then
                             TriggerServerEvent('gksphone:NewMail', {
                                 sender =  Lang:t("mail.sender"),
@@ -92,6 +83,16 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                             })
                         elseif Config.Phone == "qs-phone" then
                             TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.message"),
+                                button = {
+                                    enabled = true,
+                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                                }
+                            })
+                        elseif Config.Phone == "high_phone" then
+                            TriggerServerEvent('qb-phone:server:sendNewMail', {
                                 sender =  Lang:t("mail.sender"),
                                 subject = Lang:t("mail.subject"),
                                 message = Lang:t("mail.message"),
@@ -119,16 +120,6 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                                 }
                             })
-                        elseif Config.Phone == "high_phone" then
-                            TriggerServerEvent('high_phone:sendMailFromServer', {
-                                sender =  Lang:t("mail.sender"),
-                                subject = Lang:t("mail.subject"),
-                                message = Lang:t("mail.message"),
-                                button = {
-                                    enabled = true,
-                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                                }
-                            })
                         elseif Config.Phone == "gks-phone" then
                             TriggerServerEvent('gksphone:NewMail', {
                                 sender =  Lang:t("mail.sender"),
@@ -145,14 +136,24 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                                 }
                             })
+                        elseif Config.Phone == "high_phone" then
+                            TriggerServerEvent('qb-phone:server:sendNewMail', {
+                                sender =  Lang:t("mail.sender"),
+                                subject = Lang:t("mail.subject"),
+                                message = Lang:t("mail.messagenotnight"),
+                                button = {
+                                    enabled = true,
+                                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                                }
+                            })
                         end
                     end)
-
+                
                 end
-        --    else
-        --        QBCore.Functions.Notify(Lang:t('notify.donthaveitem'), 'error')
-        --    end
-        --end, Config.StartItem)
+            else
+                QBCore.Functions.Notify(Lang:t('notify.donthaveitem'), 'error')
+            end
+        end, Config.StartItem)
     elseif ongoing then
         QBCore.Functions.Notify(Lang:t("notify.robberyinprogress"), "error")
     else
@@ -430,16 +431,6 @@ function cooldownNextRobbery()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
-        elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
-                sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject2"),
-                message = Lang:t("mail.message2"),
-                button = {
-                    enabled = true,
-                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                }
-            })
         elseif Config.Phone == "gks-phone" then
             TriggerServerEvent('gksphone:NewMail', {
                 sender =  Lang:t("mail.sender"),
@@ -448,6 +439,16 @@ function cooldownNextRobbery()
             })
         elseif Config.Phone == "qs-phone" then
             TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject2"),
                 message = Lang:t("mail.message2"),
@@ -469,16 +470,6 @@ function cooldownNextRobbery()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
-        elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
-                sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject2"),
-                message = Lang:t("mail.message2"),
-                button = {
-                    enabled = true,
-                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                }
-            })
         elseif Config.Phone == "gks-phone" then
             TriggerServerEvent('gksphone:NewMail', {
                 sender =  Lang:t("mail.sender"),
@@ -487,6 +478,16 @@ function cooldownNextRobbery()
             })
         elseif Config.Phone == "qs-phone" then
             TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject2"),
                 message = Lang:t("mail.message2"),
@@ -518,16 +519,6 @@ function cooldownNextRobberyFail()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
-        elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
-                sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject3"),
-                message = Lang:t("mail.message3"),
-                button = {
-                    enabled = true,
-                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                }
-            })
         elseif Config.Phone == "gks-phone" then
             TriggerServerEvent('gksphone:NewMail', {
                 sender =  Lang:t("mail.sender"),
@@ -536,6 +527,16 @@ function cooldownNextRobberyFail()
             })
         elseif Config.Phone == "qs-phone" then
             TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject3"),
                 message = Lang:t("mail.message3"),
@@ -557,16 +558,6 @@ function cooldownNextRobberyFail()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
-        elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
-                sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject3"),
-                message = Lang:t("mail.message3"),
-                button = {
-                    enabled = true,
-                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
-                }
-            })
         elseif Config.Phone == "gks-phone" then
             TriggerServerEvent('gksphone:NewMail', {
                 sender =  Lang:t("mail.sender"),
@@ -575,6 +566,16 @@ function cooldownNextRobberyFail()
             })
         elseif Config.Phone == "qs-phone" then
             TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+                button = {
+                    enabled = true,
+                    buttonEvent = "6x_houserobbery:getrandomhouseloc"
+                }
+            })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject3"),
                 message = Lang:t("mail.message3"),
