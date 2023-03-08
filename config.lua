@@ -11,6 +11,7 @@ Config.PedHeading = 357.7963
 Config.ModelHash = 0xA1435105
 Config.PedLocation = vector3(762.0843, -1038.7394, 19.7249)
 
+Config.StartItem = "rolex"
 Config.PickItem = "advancedlockpick"
 
 Config.noise = true -- true/false
