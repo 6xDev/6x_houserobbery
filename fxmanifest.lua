@@ -7,7 +7,7 @@ description '[QB] 6x_houserobbery'
 version '1.0.7'
 
 client_scripts{
-    "client/client.lua",
+    "client/client.lua"
 }
 
 server_scripts {
