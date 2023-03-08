@@ -50,3 +50,10 @@ RegisterServerEvent('6x_houserobbery:server:takeitem', function(item, amount)
     
     Player.Functions.RemoveItem(Config.PickItem, 1)
 end)
+
+RegisterServerEvent('6x_houserobbery:server:takeitem2', function(item, amount)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    
+    Player.Functions.RemoveItem(Config.StartItem, 1)
+end)
