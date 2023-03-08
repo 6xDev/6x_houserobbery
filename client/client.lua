@@ -88,6 +88,12 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                             buttonEvent = "6x_houserobbery:getrandomhouseloc"
                         }
                     })
+                elseif Config.Phone == "high_phone" then
+                    TriggerServerEvent('high_phone:sendMailFromServer', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message"),
+                    })
                 end
             end)
         else
@@ -122,6 +128,12 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                             enabled = true,
                             buttonEvent = "6x_houserobbery:getrandomhouseloc"
                         }
+                    })
+                elseif Config.Phone == "high_phone" then
+                    TriggerServerEvent('high_phone:sendMailFromServer', {
+                        sender =  Lang:t("mail.sender"),
+                        subject = Lang:t("mail.subject"),
+                        message = Lang:t("mail.message"),
                     })
                 end
             end)
@@ -420,6 +432,12 @@ function cooldownNextRobbery()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('high_phone:sendMailFromServer', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
+            })
         end
         callPolice(missionTarget)
     elseif robberystopped == false then
@@ -448,6 +466,12 @@ function cooldownNextRobbery()
                     enabled = true,
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
+            })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('high_phone:sendMailFromServer', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
             })
         end
     end
@@ -488,6 +512,12 @@ function cooldownNextRobberyFail()
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
             })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('high_phone:sendMailFromServer', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
+            })
         end
         callPolice(missionTarget)
     elseif robberystopped == false then
@@ -516,6 +546,12 @@ function cooldownNextRobberyFail()
                     enabled = true,
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
                 }
+            })
+        elseif Config.Phone == "high_phone" then
+            TriggerServerEvent('high_phone:sendMailFromServer', {
+                sender =  Lang:t("mail.sender"),
+                subject = Lang:t("mail.subject3"),
+                message = Lang:t("mail.message3"),
             })
         end
     end
