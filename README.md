@@ -40,6 +40,7 @@
 
 ## Update 1.0.7
 --Support for [high_phone](https://www.high-scripts.com/package/4696722)
+--You need item to start [Config.StartItem]
 
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
