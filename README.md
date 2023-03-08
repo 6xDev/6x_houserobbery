@@ -38,6 +38,9 @@
 --Fixed problem with location of pd notify.
 --You can start robbery when its day, but there's 50% chance to cops get notified when you try to enter the house.
 
+## Update 1.0.7
+--Support for [high_phone](https://www.high-scripts.com/package/4696722)
+
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)
