@@ -92,7 +92,7 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                                 }
                             })
                         elseif Config.Phone == "high_phone" then
-                            TriggerServerEvent('high_phone:sendMailFromServer', {
+                            TriggerServerEvent('qb-phone:server:sendNewMail', {
                                 sender =  Lang:t("mail.sender"),
                                 subject = Lang:t("mail.subject"),
                                 message = Lang:t("mail.message"),
@@ -137,7 +137,7 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                                 }
                             })
                         elseif Config.Phone == "high_phone" then
-                            TriggerServerEvent('high_phone:sendMailFromServer', {
+                            TriggerServerEvent('qb-phone:server:sendNewMail', {
                                 sender =  Lang:t("mail.sender"),
                                 subject = Lang:t("mail.subject"),
                                 message = Lang:t("mail.messagenotnight"),
@@ -448,7 +448,7 @@ function cooldownNextRobbery()
                 }
             })
         elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject2"),
                 message = Lang:t("mail.message2"),
@@ -487,7 +487,7 @@ function cooldownNextRobbery()
                 }
             })
         elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject2"),
                 message = Lang:t("mail.message2"),
@@ -536,7 +536,7 @@ function cooldownNextRobberyFail()
                 }
             })
         elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject3"),
                 message = Lang:t("mail.message3"),
@@ -575,7 +575,7 @@ function cooldownNextRobberyFail()
                 }
             })
         elseif Config.Phone == "high_phone" then
-            TriggerServerEvent('high_phone:sendMailFromServer', {
+            TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
                 subject = Lang:t("mail.subject3"),
                 message = Lang:t("mail.message3"),
