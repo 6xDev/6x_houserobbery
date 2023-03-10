@@ -42,6 +42,9 @@
 --Support for [high_phone](https://www.high-scripts.com/package/4696722)
 --You need item to start [Config.StartItem]
 
+## Update 1.0.8
+--Support for qb-target in exit/entry/search for loot [config.lua/Config.UseTarget = true -- Set false if you dont use qb-target[with target is resmon always 0.00!]]
+
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)
