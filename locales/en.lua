@@ -1,6 +1,9 @@
 local Translations = {
     label = {
-        ["asklocation"] = "Ask for a location"
+        ["asklocation"] = "Ask for a location",
+        ["entry"] = "Entry",
+        ["exit"] = "Exit",
+        ["loot"] = "Look for stuff"
 
     },
 
