@@ -94,8 +94,8 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                         elseif Config.Phone == "high_phone" then
                             TriggerServerEvent('qb-phone:server:sendNewMail', {
                                 sender =  Lang:t("mail.sender"),
-                                subject = Lang:t("mail.subject"),
-                                message = Lang:t("mail.message"),
+                                subject = Lang:t("mail.subject2"),
+                                message = Lang:t("mail.message2"),
                                 button = {
                                     enabled = true,
                                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
@@ -139,8 +139,8 @@ AddEventHandler("6x_houserobbery:startrobbery", function()
                         elseif Config.Phone == "high_phone" then
                             TriggerServerEvent('qb-phone:server:sendNewMail', {
                                 sender =  Lang:t("mail.sender"),
-                                subject = Lang:t("mail.subject"),
-                                message = Lang:t("mail.messagenotnight"),
+                                subject = Lang:t("mail.subject2"),
+                                message = Lang:t("mail.message2"),
                                 button = {
                                     enabled = true,
                                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
@@ -223,58 +223,102 @@ end)
 RegisterNetEvent("6x_houserobbery:createentry")
 AddEventHandler("6x_houserobbery:createentry", function(missionTarget)
     Citizen.CreateThread(function()
-	    local alreadyEnteredZone = false
-	    local text = nil
-	    while ongoing do
-	        wait = 5
-	        local ped = PlayerPedId()
-	        local inZone = false
-	        local dist = #(GetEntityCoords(ped)-vector3(missionTarget.location.x, missionTarget.location.y, missionTarget.location.z))
-	        if dist <= 3.0 then
+        if Config.UseTarget == false then
+	        local alreadyEnteredZone = false
+	        local text = nil
+	        while ongoing do
 	            wait = 5
-	            inZone  = true
-	            text = Lang:t("text3d.text")
+	            local ped = PlayerPedId()
+	            local inZone = false
+	            local dist = #(GetEntityCoords(ped)-vector3(missionTarget.location.x, missionTarget.location.y, missionTarget.location.z))
+	            if dist <= 3.0 then
+	                wait = 5
+	                inZone  = true
+	                text = Lang:t("text3d.text")
 
-	            if IsControlJustReleased(0, 23) then
-                    if isNight then
-                        QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
-                            if HasItem then
-                                EntryMinigame(missionTarget)
-                            else
-                                QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
-                            end
-                        end, Config.PickItem)
-                    else
-                        local c = math.random(1, 2)
-                        QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
-                            if HasItem then
-                                if c == 1 then
+	                if IsControlJustReleased(0, 23) then
+                        if isNight then
+                            QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
+                                if HasItem then
                                     EntryMinigame(missionTarget)
-                                elseif c == 2 then
-                                    callPolice(missionTarget)
-                                    QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
+                                else
+                                    QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
                                 end
-                            else
-                                QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
-                            end
-                        end, Config.PickItem)
-                    end
+                            end, Config.PickItem)
+                        else
+                            local c = math.random(1, 2)
+                            QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
+                                if HasItem then
+                                    if c == 1 then
+                                        EntryMinigame(missionTarget)
+                                    elseif c == 2 then
+                                        callPolice(missionTarget)
+                                        QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
+                                    end
+                                else
+                                    QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
+                                end
+                            end, Config.PickItem)
+                        end
+	                end
+	            else
+	                wait = 2000
 	            end
-	        else
-	            wait = 2000
+
+	            if inZone and not alreadyEnteredZone then
+	                alreadyEnteredZone = true
+                    exports['qb-core']:DrawText(text)
+	            end
+
+	            if not inZone and alreadyEnteredZone then
+	                alreadyEnteredZone = false
+                    exports['qb-core']:HideText()
+	            end
+	            Citizen.Wait(wait)
 	        end
 
-	        if inZone and not alreadyEnteredZone then
-	            alreadyEnteredZone = true
-                exports['qb-core']:DrawText(text)
-	        end
+        elseif Config.UseTarget == true then
 
-	        if not inZone and alreadyEnteredZone then
-	            alreadyEnteredZone = false
-                exports['qb-core']:HideText()
-	        end
-	        Citizen.Wait(wait)
-	    end
+            exports['qb-target']:AddCircleZone("hr_entry", vector3(missionTarget.location.x, missionTarget.location.y, missionTarget.location.z), 0.5, {
+                name = "hr_entry",
+                debugPoly = false,
+                useZ=true
+            }, {
+                options = {
+                    {  
+                    action = function()
+                        if isNight then
+                            QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
+                                if HasItem then
+                                    EntryMinigame(missionTarget)
+                                else
+                                    QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
+                                end
+                            end, Config.PickItem)
+                        else
+                            local c = math.random(1, 2)
+                            QBCore.Functions.TriggerCallback('QBCore:HasItem', function(HasItem)
+                                if HasItem then
+                                    if c == 1 then
+                                        EntryMinigame(missionTarget)
+                                    elseif c == 2 then
+                                        callPolice(missionTarget)
+                                        QBCore.Functions.Notify(Lang:t('notify.alarm'), 'error')
+                                    end
+                                else
+                                    QBCore.Functions.Notify(Lang:t("notify.donthaveitem"))
+                                end
+                            end, Config.PickItem)
+                        end
+                    end,
+                    icon = "far fa-clipboard",
+                    label = Lang:t('label.entry'),
+                    },
+                },
+                distance = 1.5
+            })
+        end
+
 	end)
 end)
 
@@ -293,43 +337,69 @@ end)
 RegisterNetEvent("6x_houserobbery:createexit")
 AddEventHandler("6x_houserobbery:createexit", function(missionTarget)
     Citizen.CreateThread(function()
-	    local alreadyEnteredZone = false
-	    local text = nil
-	    while ongoing do
-	        wait = 5
-	        local ped = PlayerPedId()
-	        local inZone = false
-	        local dist = #(GetEntityCoords(ped)-vector3(missionTarget.exit.x, missionTarget.exit.y, missionTarget.exit.z))
-	        if dist <= 3.0 then
+        if Config.UseTarget == false then
+	        local alreadyEnteredZone = false
+	        local text = nil
+	        while ongoing do
 	            wait = 5
-	            inZone  = true
-	            text = Lang:t("text3d.text2")
+	            local ped = PlayerPedId()
+	            local inZone = false
+	            local dist = #(GetEntityCoords(ped)-vector3(missionTarget.exit.x, missionTarget.exit.y, missionTarget.exit.z))
+	            if dist <= 3.0 then
+	                wait = 5
+	                inZone  = true
+	                text = Lang:t("text3d.text2")
 
-	            if IsControlJustReleased(0, 23) then
-                    Citizen.Wait(1000)
-	                robberyStarted = false
-                    ongoing = false
-                    SetEntityCoords(PlayerPedId(), missionTarget.location.x, missionTarget.location.y, missionTarget.location.z)
-                    cooldownNextRobbery()
-                    Citizen.Wait(500)
+	                if IsControlJustReleased(0, 23) then
+                        Citizen.Wait(1000)
+	                    robberyStarted = false
+                        ongoing = false
+                        SetEntityCoords(PlayerPedId(), missionTarget.location.x, missionTarget.location.y, missionTarget.location.z)
+                        cooldownNextRobbery()
+                        Citizen.Wait(500)
+                        exports['qb-core']:HideText()
+	                end
+	            else
+	                wait = 2000
+	            end
+
+	            if inZone and not alreadyEnteredZone then
+	                alreadyEnteredZone = true
+                    exports['qb-core']:DrawText(text)
+	            end
+
+	            if not inZone and alreadyEnteredZone then
+	                alreadyEnteredZone = false
                     exports['qb-core']:HideText()
 	            end
-	        else
-	            wait = 2000
+	            Citizen.Wait(wait)
 	        end
+	    elseif Config.UseTarget == true then
 
-	        if inZone and not alreadyEnteredZone then
-	            alreadyEnteredZone = true
-                exports['qb-core']:DrawText(text)
-	        end
-
-	        if not inZone and alreadyEnteredZone then
-	            alreadyEnteredZone = false
-                exports['qb-core']:HideText()
-	        end
-	        Citizen.Wait(wait)
-	    end
-	end)
+            exports['qb-target']:AddCircleZone("hr_exit", vector3(missionTarget.exit.x, missionTarget.exit.y, missionTarget.exit.z), 0.5, {
+                name = "hr_exit",
+                debugPoly = false,
+                useZ=true
+            }, {
+                options = {
+                    {  
+                    action = function()
+                        Citizen.Wait(1000)
+                        robberyStarted = false
+                        ongoing = false
+                        SetEntityCoords(PlayerPedId(), missionTarget.location.x, missionTarget.location.y, missionTarget.location.z)
+                        cooldownNextRobbery()
+                        Citizen.Wait(500)
+                        exports['qb-core']:HideText()
+                    end,
+                    icon = "far fa-clipboard",
+                    label = Lang:t('label.exit'),
+                    },
+                },
+                distance = 1.5
+            })
+        end
+    end)
 end)
 
 RegisterNetEvent("6x_houserobbery:createloot")
@@ -337,27 +407,52 @@ AddEventHandler("6x_houserobbery:createloot", function(missionTarget)
     for i,v in ipairs(missionTarget.loot) do
         local looted = false
         Citizen.CreateThread(function()
-            if robberystopped == false then
-                while ongoing do
-                    local wait = 5000
-                    local ped = PlayerPedId()
-                    local pedCoords = GetEntityCoords(ped)
-                    if #(v - pedCoords) < 20 then
-                        wait = 1
-                        if #(v - pedCoords) < 2 then
-                            drawTxt3D(v.x, v.y, v.z, Lang:t("text3d.text3"))
-                            if IsControlJustPressed(0, 46) then
-                                if not looted then
-                                    beginLoot()
-                                    looted = true
-                                else
-                                    QBCore.Functions.Notify(Lang:t("notify.alreadycheacked"), "error")
+            if Config.UseTarget == false then
+                if robberystopped == false then
+                    while ongoing do
+                        local wait = 5000
+                        local ped = PlayerPedId()
+                        local pedCoords = GetEntityCoords(ped)
+                        if #(v - pedCoords) < 20 then
+                            wait = 1
+                            if #(v - pedCoords) < 2 then
+                                drawTxt3D(v.x, v.y, v.z, Lang:t("text3d.text3"))
+                                if IsControlJustPressed(0, 46) then
+                                    if not looted then
+                                        beginLoot()
+                                        looted = true
+                                    else
+                                        QBCore.Functions.Notify(Lang:t("notify.alreadycheacked"), "error")
+                                    end
                                 end
                             end
                         end
+                        Wait(wait)
                     end
-                    Wait(wait)
                 end
+            elseif Config.UseTarget == true then
+
+                exports['qb-target']:AddCircleZone("hr_entry", vector3(v.x, v.y, v.z), 0.5, {
+                    name = "hr_entry",
+                    debugPoly = true,
+                    useZ=true
+                }, {
+                    options = {
+                        {  
+                        action = function()
+                            if not looted then
+                                beginLoot()
+                                looted = true
+                            else
+                                QBCore.Functions.Notify(Lang:t("notify.alreadycheacked"), "error")
+                            end
+                        end,
+                        icon = "far fa-clipboard",
+                        label = Lang:t('label.loot'),
+                        },
+                    },
+                    distance = 1.5
+                })
             end
         end)
     end
@@ -538,8 +633,8 @@ function cooldownNextRobberyFail()
         elseif Config.Phone == "high_phone" then
             TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject3"),
-                message = Lang:t("mail.message3"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
                 button = {
                     enabled = true,
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
@@ -577,8 +672,8 @@ function cooldownNextRobberyFail()
         elseif Config.Phone == "high_phone" then
             TriggerServerEvent('qb-phone:server:sendNewMail', {
                 sender =  Lang:t("mail.sender"),
-                subject = Lang:t("mail.subject3"),
-                message = Lang:t("mail.message3"),
+                subject = Lang:t("mail.subject2"),
+                message = Lang:t("mail.message2"),
                 button = {
                     enabled = true,
                     buttonEvent = "6x_houserobbery:getrandomhouseloc"
