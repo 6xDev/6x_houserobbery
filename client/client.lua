@@ -186,7 +186,7 @@ AddEventHandler('6x_houserobbery:noise', function()
 			end
 			Citizen.Wait(300)
 		else
-			noise = noise - 2
+			noise = noise - 10
             Citizen.Wait(1000)
 			if noise < 0 then
 				noise = 0
