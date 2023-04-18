@@ -5,7 +5,7 @@ Config.Dispatch = "ps-dispatch"
 Config.UseTarget = true -- Set false if you dont use qb-target[with target is resmon always 0.00!]
 
 Config.Night = {20, 4} -- Players can rob only from 20:00 to 04:00.
-Config.Phone = "high_phone" -- qb-phone, gks-phone, qs-phone, lb-phone, high_phone
+Config.Phone = "high_phone" -- qb-phone, gks-phone, qs-phone, high_phone
 
 Config.Ped = "a_m_y_business_03"
 Config.PedHeading = 357.7963
